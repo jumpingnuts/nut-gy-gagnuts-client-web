@@ -1,0 +1,90 @@
+<div class="row">
+  <div class="col-lg-12">
+    <h3>
+      <span>{{simnut.title}}</span> 
+      <small class="text-success">
+        <i class="fa fa-thumbs-o-up"></i> 
+        <span class="count_likes">
+        {{simnut.count_likes?simnut.count_likes:0}}
+        </span>
+        <small>{{simnut.created}}</small>
+      </small>
+    </h3>
+    <hr />
+  </div>
+  <div class="col-lg-12">
+    <!--<h3>{{simnut.title}} <small class="text-success"><i class="fa fa-likebulb-o"></i> {{simnut.count_likes}}</small></h3>
+    -->
+    <p>
+      {{simnut.description}}
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <p>
+            <h1 ng-class="{show:result}" ng-bind-html="result"></h1>
+          </p>
+        </div>
+      </div>
+    </p>
+    
+    <p>
+    <form ng-class="{hide:result}" ng-submit="getResult()">
+      <div class="row">
+        <div class="col-lg-offset-4 col-lg-2 col-xs-12">
+            <input type="text" class="form-control text-lg" ng-model="inputName" placeholder="이름" required="true" />
+        </div>
+        <div class="col-lg-2 col-xs-12">
+          <button type="submit" class="btn btn-success col-lg-12 col-xs-12">
+            결과보기
+          </button>
+        </div>
+      </div>
+    </form>
+    </p>
+    
+    <p>
+    <div class="row" ng-controller="ShareCtrl">
+        <div class="col-lg-offset-2 col-lg-8 col-xs-offset-1 col-xs-10 text-center">
+          <a href ng-click="shareLink('kakaoTalk')">
+            <img src="http://d3vxhqbnuvoxg0.cloudfront.net/img/btn_share_kakaotalk.png" width="34" /></a>
+          <a href ng-click="shareLink('kakaoStroy')">
+          <img src="http://d3vxhqbnuvoxg0.cloudfront.net/img/btn_share_kakaostory.png" width="34" /></a>
+          <a href ng-click="shareLink('twitter')">
+          <img src="http://d3vxhqbnuvoxg0.cloudfront.net/img/btn_share_twitter.png" width="34" /></a>
+          <a href ng-click="shareLink('facebook')">
+          <img src="http://d3vxhqbnuvoxg0.cloudfront.net/img/btn_share_facebook.png" width="34" /></a>
+          <!--
+          <a href="javascript:_shareSns('line');">
+          <img src="http://d3vxhqbnuvoxg0.cloudfront.net/img/btn_share_line.png" width="34" /></a>
+          <a href="javascript:_shareSns('me2day');">
+          <img src="http://d3vxhqbnuvoxg0.cloudfront.net/img/btn_share_me2day.png" width="34" /></a>
+          <a href="javascript:_shareSns('googleplus');">
+          <img src="http://d3vxhqbnuvoxg0.cloudfront.net/img/btn_share_googleplus.png" width="34" /></a>
+          -->
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-offset-4 col-lg-4 col-xs-offset-1 col-xs-10">
+          <small>URL :</small> 
+          <input type="text" class="form-control text-lg" ng-model="webInfo.currentUrl" />
+        </div>
+      </div>
+    </p>
+    
+    <p class="text-center">
+      <button 
+        class="btn btn-lg" 
+        ng-class="{'btn-default':!like.light, 'btn-success':like.light, 'active':like.light}" 
+        ng-click="likeToggle()">
+        <h1>
+          <i class="fa fa-likebulb-o"></i>
+          <span>{{like.text[like.light]}}</span>
+        </h1>
+        좋아요 수 : 
+        <span class="count_likes">
+        {{simnut.count_likes?simnut.count_likes:0}}
+        </span>
+      </button>
+    </p>
+  </div>
+</div>
+<div class="row" ng-include="'views/comment.html'" ng-controller="CommentCtrl"></div>
