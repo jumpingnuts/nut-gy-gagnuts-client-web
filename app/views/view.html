@@ -1,45 +1,27 @@
 <div class="row">
   <div class="col-lg-12">
     <h3>
-      <span>{{simnut.title}}</span> 
+      <span>{{content.name}}</span> 
       <small class="text-success">
         <i class="fa fa-thumbs-o-up"></i> 
-        <span class="count_likes">
-        {{simnut.count_likes?simnut.count_likes:0}}
+        <span class="vote_count">
+        {{content.vote_count?content.vote_count:0}}
         </span>
-        <small>{{simnut.created}}</small>
+        <small>{{content.created}}</small>
       </small>
     </h3>
     <hr />
   </div>
   <div class="col-lg-12">
-    <!--<h3>{{simnut.title}} <small class="text-success"><i class="fa fa-likebulb-o"></i> {{simnut.count_likes}}</small></h3>
+    <!--<h3>{{content.title}} <small class="text-success"><i class="fa fa-likebulb-o"></i> {{content.vote_count}}</small></h3>
     -->
-    <p>
-      {{simnut.description}}
-      <div class="row">
-        <div class="col-lg-12 text-center">
-          <p>
-            <h1 ng-class="{show:result}" ng-bind-html="result"></h1>
-          </p>
-        </div>
-      </div>
-    </p>
-    
-    <p>
-    <form ng-class="{hide:result}" ng-submit="getResult()">
-      <div class="row">
-        <div class="col-lg-offset-4 col-lg-2 col-xs-12">
-            <input type="text" class="form-control text-lg" ng-model="inputName" placeholder="이름" required="true" />
-        </div>
-        <div class="col-lg-2 col-xs-12">
-          <button type="submit" class="btn btn-success col-lg-12 col-xs-12">
-            결과보기
-          </button>
-        </div>
-      </div>
-    </form>
-    </p>
+    <div class="text-center" data-thumb="{{content.thumb}}" ng-repeat="item in content.items">
+      <!-- ng-if : item.movie -->
+      <iframe ng-if="item.movie" width="100%" height="250" ng-src="{{item.movie}}" frameborder="0" allowfullscreen=""></iframe>
+      <!-- ng-if : item.image -->
+      <img ng-if="item.image" style="max-width: 100%" ng-src="{{item.image}}"/>
+    </div>
+    <p>{{content.content}}</p>
     
     <p>
     <div class="row" ng-controller="ShareCtrl">
@@ -80,8 +62,8 @@
           <span>{{like.text[like.light]}}</span>
         </h1>
         좋아요 수 : 
-        <span class="count_likes">
-        {{simnut.count_likes?simnut.count_likes:0}}
+        <span class="vote_count">
+        {{content.vote_count?content.vote_count:0}}
         </span>
       </button>
     </p>

@@ -26,7 +26,7 @@ define([
 
     //모듈 선언
     var app = angular.module(
-      'simsimNuts', [
+      'nutsApp', [
         'mainCtrls',
         'userCtrls',
         'mainServices',
@@ -48,13 +48,13 @@ define([
             controller : 'ListCtrl',
             templateUrl : './views/list.html'
           })
-          .when('/app/:simnutId', {
+          .when('/app/:contentId', {
             //template: '<div></div>',
             controller : 'ViewCtrl',
             resolve : {
-              simnut :
-                function(SimnutLoader) {
-                  return new SimnutLoader();
+              content :
+                function(ContentLoader) {
+                  return new ContentLoader();
                 }
             },
             templateUrl : './views/view.html'
@@ -78,18 +78,20 @@ define([
       $httpProvider.defaults.useXDomain = true;
       $httpProvider.defaults.withCredentials = true;
     });
+    
 //    app.config();
     
     //공통 컨트롤러 설정 - 모든 컨트롤러에서 공통적으로 사용하는 부분들 선언
     app.controller('CommonController', ['$rootScope', '$scope', '$location', function($rootScope, $scope, $location) {
       $scope.webInfo = {
-        'title': '심심풀이 너츠',
+        'title': '개그 너츠',
         'mailto': 'mailto:nuts@jumpingnuts.com',
         'company': 'Jumping Nuts Inc.',
         'establishmentYear': '2013',
       };
       
       $rootScope.apiInfo = {
+        'title': '개그 너츠',
         'baseUrl': 'http://api.jumpingnuts.com',  //상용
 //        'baseUrl': 'http://dev.jumpingnuts.com:9010', //개발
         'clientId': '0441c0011f37fec037843fcfe314366f',
@@ -114,11 +116,11 @@ define([
           'trends': {'name':'트랜드', 'order':1},
           'best': {'name': '베스트', 'order':2},
           'new': {'name': '새 앱', 'order':3},
-          'mine': {'name': '내가 만든 앱', 'hide':true, 'order':4}
+          //'mine': {'name': '내가 만든 앱', 'hide':true, 'order':4}
         },
       };
       
-      var appid = 'com.jumpingnuts.simplenuts';
+      var appid = 'com.jumpingnuts.gagnuts';
       $scope.marketInfo = {
         'appId': appid,
         'url' : 'https://play.google.com/store/apps/details?id='+appid,

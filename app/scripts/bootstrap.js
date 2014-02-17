@@ -44,10 +44,10 @@ require([
 ], function(angular, $) {
   'use strict';
   $(document).ready(function () {
-    //위의 디펜던시 중 simsimNuts이 포함된 app.js가 로드된 이후에 아래가 수행된다.
+    //위의 디펜던시 중 nutsApp이 포함된 app.js가 로드된 이후에 아래가 수행된다.
     //임의로 앵귤러 부트스트래핑을 수행한다.
     
-    angular.bootstrap(document, ['simsimNuts']);
+    angular.bootstrap(document, ['nutsApp']);
     
   });
 });

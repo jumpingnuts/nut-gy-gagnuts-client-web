@@ -2,10 +2,10 @@ define(['angular', 'angularResource', 'kakao'], function (angular, kakao) {
   'use strict';
   
   angular.module('mainServices', [ 'ngResource' ])
-    .factory('Simnut', [ '$rootScope', '$resource', function($rootScope, $resource) {
-      return $resource($rootScope.apiInfo.baseUrl+'/api/kakaoapp/app/:id');
+    .factory('Content', [ '$rootScope', '$resource', function($rootScope, $resource) {
+      return $resource($rootScope.apiInfo.baseUrl+'/api/gag/article/:id');
     }])
-    .factory('MultiSimnutLoader', [ 'Simnut', '$q', function(Simnut, $q) {
+    .factory('MultiContentLoader', [ 'Content', '$q', function(Content, $q) {
       return function(page, type, userId) {
         page = page?page:1;
         type = type?type:'trends';
@@ -14,10 +14,10 @@ define(['angular', 'angularResource', 'kakao'], function (angular, kakao) {
 
         switch(type) {
           case 'trends':
-            order = 'updated desc';
+            order = '(recent_vote_count+recent_view_count) desc';
             break;
           case 'best':
-            order = 'count_likes desc, updated desc';
+            order = 'vote_count desc, created desc';
             break;
           case 'new':
             order = 'created desc';
@@ -40,7 +40,7 @@ define(['angular', 'angularResource', 'kakao'], function (angular, kakao) {
         }
         
         var delay = $q.defer();
-        Simnut.query(param, function(res) {
+        Content.query(param, function(res) {
           delay.resolve(res);
         }, function(res) {
           delay.reject(res);
@@ -48,10 +48,10 @@ define(['angular', 'angularResource', 'kakao'], function (angular, kakao) {
         return delay.promise;
       };
     }])
-    .factory('SimnutLoader', [ 'Simnut', '$route', '$q', function(Simnut, $route, $q) {
+    .factory('ContentLoader', [ 'Content', '$route', '$q', function(Content, $route, $q) {
       return function() {
         var delay = $q.defer();
-        Simnut.get({ id : $route.current.params.simnutId }, function(res) {
+        Content.get({ id : $route.current.params.contentId }, function(res) {
           delay.resolve(res);
         }, function(res) {
           delay.reject(res);
@@ -60,7 +60,7 @@ define(['angular', 'angularResource', 'kakao'], function (angular, kakao) {
       };
     }])
     
-    .factory('SimnutSave', [ 'Simnut', '$q', function(Simnut, $q) {
+    .factory('ContentSave', [ 'Content', '$q', function(Content, $q) {
       return function(data) {
         var tmp = [];
         for(var i in data.variables) {
@@ -68,7 +68,7 @@ define(['angular', 'angularResource', 'kakao'], function (angular, kakao) {
         }
         data.variables = tmp;
         var delay = $q.defer();
-        Simnut.save(data, function(res) {
+        Content.save(data, function(res) {
           delay.resolve(res);
         }, function(res) {
           delay.reject(res);
@@ -81,9 +81,9 @@ define(['angular', 'angularResource', 'kakao'], function (angular, kakao) {
       return $resource($rootScope.apiInfo.baseUrl+'/api/kakaoapp/like/:like_id');
     }])
     .factory('LikeView', [ 'Like', '$q', function(Like, $q) {
-      return function(simnutId, userId) {
+      return function(contentId, userId) {
         var delay = $q.defer();
-        Like.get({ 'app_id' : simnutId, 'user_id' : userId}, function(res) {
+        Like.get({ 'app_id' : contentId, 'user_id' : userId}, function(res) {
           delay.resolve(res);
         }, function(res) {
           delay.reject(res);
@@ -92,9 +92,9 @@ define(['angular', 'angularResource', 'kakao'], function (angular, kakao) {
       };
     }])
     .factory('LikeOn', [ 'Like', '$q', function(Like, $q) {
-      return function(simnutId, userId) {
+      return function(contentId, userId) {
         var delay = $q.defer();
-        Like.save({ 'app_id': simnutId, 'user_id': userId}, function(res) {
+        Like.save({ 'app_id': contentId, 'user_id': userId}, function(res) {
           delay.resolve(res);
         }, function(res) {
           delay.reject(res);
@@ -103,9 +103,9 @@ define(['angular', 'angularResource', 'kakao'], function (angular, kakao) {
       };
     }])
     .factory('LikeOff', [ 'Like', '$q', function(Like, $q) {
-      return function(simnutId, userId, likeId) {
+      return function(contentId, userId, likeId) {
         var delay = $q.defer();
-        Like.delete({ 'app_id': simnutId, 'user_id': userId, 'like_id': likeId}, function(res) {
+        Like.delete({ 'app_id': contentId, 'user_id': userId, 'like_id': likeId}, function(res) {
           delay.resolve(res);
         }, function(res) {
           delay.reject(res);
@@ -122,17 +122,17 @@ define(['angular', 'angularResource', 'kakao'], function (angular, kakao) {
             url : data.marketUrl,
             appid : data.appId,
             appver : '1.0',
-            appname : '심심풀이 너츠',
+            appname : data.appName,
             type : 'link'
           });
         },
         
         kakaoStory: function(data){
           kakao.link('story').send({
-            post : '[심심풀이 너츠] '+data.title+'\n\n'+data.content+'\n\n'+data.currentUrl+'\n\n안드로이드 : '+data.marketUrl,
+            post : '['+data.appName+'] '+data.title+'\n\n'+data.content+'\n\n'+data.currentUrl+'\n\n안드로이드 : '+data.marketUrl,
             appid : data.appId,
             appver : '1.0',
-            appname : '심심풀이 너츠',
+            appname : data.appName,
             urlinfo : JSON.stringify({
               title: data.title,
               desc: data.content.substring(0,80)+'...',
@@ -141,11 +141,11 @@ define(['angular', 'angularResource', 'kakao'], function (angular, kakao) {
             })
           });
         },
-  
+
         twitter: function(data){
           window.location.href = 'https://twitter.com/intent/tweet?'+
             'original_referer='+encodeURIComponent(data.currentUrl)+
-            '&text='+encodeURIComponent('[심심풀이 너츠] '+data.title+'\n'+data.content.replace(/\n/gi, ' ').substring(0,60))+'\n\n'+
+            '&text='+encodeURIComponent('['+data.appName+'] '+data.title+'\n'+data.content.replace(/\n/gi, ' ').substring(0,60))+'\n\n'+
             '&url='+encodeURIComponent(data.marketUrl);
         },
   
@@ -158,7 +158,7 @@ define(['angular', 'angularResource', 'kakao'], function (angular, kakao) {
         },
         
         postText : function(data){
-          return '[심심풀이 너츠] '+data.title+'\n\n'+data.content+'\n\n안드로이드 : '+data.marketUrl;
+          return '['+data.appName+'] '+data.title+'\n\n'+data.content+'\n\n안드로이드 : '+data.marketUrl;
         }
       };
     });
