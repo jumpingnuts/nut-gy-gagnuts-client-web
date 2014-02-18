@@ -16,7 +16,7 @@ define(['angular'], function (angular) {
             if(res.insertId > 0) {
               var data = {
                 'type': 'text',
-                'storyPostText': username+'님이 \'개그너츠\'앱을 시작하셨습니다.\n\n안드로이드 다운로드\n'+marketUrl
+                'storyPostText': username+'님이 \''+$rootScope.appInfo.title+'\'앱을 시작하셨습니다.\n\n안드로이드 다운로드\n'+marketUrl
               };
               self.uploadStroryPost(data, null, '앱으로 가기', '/list/trends', '');
             }

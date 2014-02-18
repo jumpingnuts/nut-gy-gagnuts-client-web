@@ -96,9 +96,10 @@ define([
           scrollPos: 0
         };
         
-        var appid = 'com.jumpingnuts.gagnuts';
+        var appname = 'gagnuts';
         $scope.appInfo = $rootScope.appInfo = {
           'title': '개그너츠',
+          'webUrl': 'http://nut.gy/'+appname,
           'mailto': 'mailto:nuts@jumpingnuts.com',
           'company': 'Jumping Nuts Inc.',
           'establishmentYear': '2013',
@@ -110,10 +111,10 @@ define([
             'openType': 'iframe'//iframe, opener
           },
           'android': {
-            'appname': 'gagnuts',
-            'appId': appid,
-            'url' : 'https://play.google.com/store/apps/details?id='+appid,
-            'urlCustom' : 'market://details?id='+appid
+            'appname': appname,
+            'appId': 'com.jumpingnuts.'+appname,
+            'url' : 'https://play.google.com/store/apps/details?id='+'com.jumpingnuts.'+appname,
+            'urlCustom' : 'market://details?id='+'com.jumpingnuts.'+appname
           }
         };
 
@@ -122,7 +123,7 @@ define([
           'items': {
             'trends': {'name':'트랜드', 'order':1},
             'best': {'name': '베스트', 'order':2},
-            'new': {'name': '새 앱', 'order':3},
+            'new': {'name': '새 글', 'order':3},
             //'mine': {'name': '내가 만든 앱', 'hide':true, 'order':4}
           },
         };
