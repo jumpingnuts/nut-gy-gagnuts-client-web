@@ -1,4 +1,4 @@
-define(['angular', 'angularResource', 'kakao'], function (angular, kakao) {
+define(['angular', 'angularResource', 'kakao'], function (angular) {
   'use strict';
   
   angular.module('mainServices', [ 'ngResource' ])
@@ -118,7 +118,7 @@ define(['angular', 'angularResource', 'kakao'], function (angular, kakao) {
       return {
         kakaoTalk: function(data){
           kakao.link('talk').send({
-            msg : data.title+'\n\n'+data.content+'\n\n'+data.currentUrl,
+            msg : data.title+'\n\n'+data.content+'\n\n'+data.currentUrl+'\n\n',
             url : data.marketUrl,
             appid : data.appId,
             appver : '1.0',

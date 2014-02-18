@@ -202,18 +202,17 @@ function (angular, $) {
     }])
     
     .controller('ShareCtrl', ['$scope', 'ShareFunc', function($scope, ShareFunc){
-//chk: 그린라이트 이미지 임
-
       $scope.shareLink = function(type){
         var data = {
           'appName': $scope.appInfo.title,
-          'content': $(('<b>'+$scope.content.content+'</b>').replace(/<br[\s]?[\/]?\>/gi, '\n').trim()).text(),
-          'currentImage': 'http://nut.gy/content/images/icon_512x512.png',
+          'content': $(('<b>'+($scope.content.content ? $scope.content.content : '')+'</b>').replace(/<br[\s]?[\/]?\>/gi, '\n').trim()).text(),
+          'currentImage': $scope.content.thumb.split('|')[0],
           'currentUrl': $scope.appInfo.currentUrl,
           'title': $scope.content.name,
           'marketUrl': $scope.appInfo.android.url,
           'appId': $scope.appInfo.android.appId
         };
+
         ShareFunc[type](data);
       };
     }]);
