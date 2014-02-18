@@ -1,7 +1,7 @@
 'use strict';
 
 define(['angular', 'jquery'], function (angular, $) {
-  var INTERVAL_DELAY = 1000;
+  var INTERVAL_DELAY = 1500;
   
   angular.module('directives', [])
     .directive('ngScrollEvent', ['$parse', '$window', '$document', function($parse, $window, $document) {

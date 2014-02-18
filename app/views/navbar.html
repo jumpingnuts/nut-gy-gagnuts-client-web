@@ -13,7 +13,7 @@
       </button>
         
       <a class="navbar-brand" href="#/">
-        <b ng-bind="webInfo.title"></b> <i class="fa fa-lightbulb-o"></i>
+        <b ng-bind="appInfo.title"></b> <i class="fa fa-lightbulb-o"></i>
       </a>
 
     </div>
@@ -27,7 +27,7 @@
       <!-- user info -->
       <div class="navbar-right">
         <form class="navbar-form" ng-class="{hide:userInfo.isLogin}">
-          <a ng-href="#/login?redirectUrl={{webInfo.currentPath}}">
+          <a ng-href="#/login?redirectUrl={{appInfo.currentPath}}">
             <button type="submit" class="btn btn-info">로그인</button>
           </a>
           <a href="#/regist">

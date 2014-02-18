@@ -3,7 +3,7 @@ define(['angular', 'angularResource', 'kakao'], function (angular, kakao) {
   
   angular.module('mainServices', [ 'ngResource' ])
     .factory('Content', [ '$rootScope', '$resource', function($rootScope, $resource) {
-      return $resource($rootScope.apiInfo.baseUrl+'/api/gag/article/:id');
+      return $resource($rootScope.appInfo.api.baseUrl+'/api/gag/article/:id');
     }])
     .factory('MultiContentLoader', [ 'Content', '$q', function(Content, $q) {
       return function(page, type, userId) {
@@ -78,7 +78,7 @@ define(['angular', 'angularResource', 'kakao'], function (angular, kakao) {
     }])
     
     .factory('Like', [ '$rootScope', '$resource', function($rootScope, $resource) {
-      return $resource($rootScope.apiInfo.baseUrl+'/api/kakaoapp/like/:like_id');
+      return $resource($rootScope.appInfo.api.baseUrl+'/api/kakaoapp/like/:like_id');
     }])
     .factory('LikeView', [ 'Like', '$q', function(Like, $q) {
       return function(contentId, userId) {

@@ -84,7 +84,7 @@ define(['angular', 'jquery', 'services/user', 'services/native'], function (angu
         };
         
         $scope.moveLogin = function(){
-          $scope.move('/login?redirectUrl='+$scope.webInfo.currentPath);
+          $scope.move('/login?redirectUrl='+$scope.appInfo.currentPath);
         };
       }
     ])

@@ -22,24 +22,32 @@ function (angular, $) {
     .controller('ListCtrl', [
       '$scope',
       '$routeParams',
-      '$window',
+      '$timeout',
       'MultiContentLoader',
       'Content',
-      function($scope, $routeParams, $window, MultiContentLoader, Content) {
-        $scope.contents = [];
+      function($scope, $routeParams, $timeout, MultiContentLoader, Content) {
         $scope.isLoad = false;
-        $scope.page = 1;
-        $scope.type = $scope.nav.active = $routeParams.type;
-  
-        if($scope.type==='mine' && !$scope.isLogin()) {
+        
+        if($scope.contents.type !== $routeParams.type) {
+          $scope.contents.data = [];
+          $scope.contents.page = 1;
+        } else {
+          $timeout(function(){
+            $scope.loadScroll();
+          }, 0);
+        }
+        
+        $scope.contents.type = $scope.nav.active = $routeParams.type;
+
+        if($scope.contents.type==='mine' && !$scope.isLogin()) {
           $scope.moveLogin();
           return false;
         }
-        
+
         $scope.listLoad = function(){
           if($scope.isLoad) {return false;}
           $scope.isLoad = true;
-          new MultiContentLoader($scope.page, $scope.type, $scope.userInfo.id).then(function(res){
+          new MultiContentLoader($scope.contents.page, $scope.contents.type, $scope.userInfo.id).then(function(res){
             if(res.length > 0) {
               for(var i in res) {
                 if(res[i].items) {
@@ -47,8 +55,8 @@ function (angular, $) {
                   res[i].items.name = res[i].items.name != undefined ? res[i].items.name.substring(0, 55) : '';
                 }
               }
-              $scope.contents = $scope.contents.concat(res);
-              $scope.page++;
+              $scope.contents.data = $scope.contents.data.concat(res);
+              $scope.contents.page++;
               $scope.isLoad = false;
             }
           });
@@ -61,9 +69,9 @@ function (angular, $) {
             var contentId = $($event.currentTarget).attr('data-id');
             new Content.remove({ id:contentId }, function(res){
               if(res.affectedRows > 0) {
-                for(var i in $scope.contents) {
-                  if($scope.contents[i].id === parseInt(contentId)) {
-                    $scope.contents.pop(i);
+                for(var i in $scope.contents.data) {
+                  if($scope.contents.data[i].id === parseInt(contentId)) {
+                    $scope.contents.data.pop(i);
                     break;
                   }
                 }
@@ -96,7 +104,7 @@ function (angular, $) {
           'text' : {false: '꺼짐', true: '켜짐'},
           'id' : null
         };
-        
+
         content.items = angular.fromJson(content.items);
         content.content = content.items[0].name;
         content.thumb = "";
@@ -147,16 +155,16 @@ function (angular, $) {
                 
                 if(window.android){
                   var data = {
-                    'appName': $scope.webInfo.title,
+                    'appName': $scope.appInfo.title,
                     'content': $(('<b>'+$scope.content.content+'</b>').replace(/<br[\s]?[\/]?\>/gi, '\n').trim()).text(),
                     'title': $scope.content.name,
-                    'marketUrl': $scope.marketInfo.url,
-                    'currentUrl': $scope.webInfo.currentUrl,
-                    'appId': $scope.marketInfo.appId
+                    'marketUrl': $scope.appInfo.android.url,
+                    'currentUrl': $scope.appInfo.currentUrl,
+                    'appId': $scope.appInfo.android.appId
                   };
                   data.storyPostText = ShareFunc.postText(data);
                   
-                  NativeFunc.uploadStroryPost(data, $scope.content.thumb, '앱으로 가기', $scope.webInfo.currentPath, '');
+                  NativeFunc.uploadStroryPost(data, $scope.content.thumb, '앱으로 가기', $scope.appInfo.currentPath, '');
                 }
               }
             });
@@ -198,13 +206,13 @@ function (angular, $) {
 
       $scope.shareLink = function(type){
         var data = {
-          'appName': $scope.webInfo.title,
+          'appName': $scope.appInfo.title,
           'content': $(('<b>'+$scope.content.content+'</b>').replace(/<br[\s]?[\/]?\>/gi, '\n').trim()).text(),
           'currentImage': 'http://nut.gy/content/images/icon_512x512.png',
-          'currentUrl': $scope.webInfo.currentUrl,
+          'currentUrl': $scope.appInfo.currentUrl,
           'title': $scope.content.name,
-          'marketUrl': $scope.marketInfo.url,
-          'appId': $scope.marketInfo.appId
+          'marketUrl': $scope.appInfo.android.url,
+          'appId': $scope.appInfo.android.appId
         };
         ShareFunc[type](data);
       };

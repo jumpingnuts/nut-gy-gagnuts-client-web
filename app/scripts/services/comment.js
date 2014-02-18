@@ -3,7 +3,7 @@ define(['angular'], function (angular) {
   
   angular.module('commentServices', [ 'ngResource' ])
     .factory('Comment', [ '$rootScope', '$resource', function($rootScope, $resource) {
-      return $resource($rootScope.apiInfo.baseUrl+'/api/comment');
+      return $resource($rootScope.appInfo.api.baseUrl+'/api/comment');
     }])
     .factory('CommentLoader', [ 'Comment', '$q', function(Comment, $q) {
       return function(page, key, type) {

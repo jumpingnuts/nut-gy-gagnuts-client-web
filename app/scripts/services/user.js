@@ -3,10 +3,10 @@ define(['angular', 'angularResource'], function (angular) {
   
   angular.module('userServices', [ 'ngResource'])
     .factory('User', [ '$rootScope', '$resource', function($rootScope, $resource) {
-      return $resource($rootScope.apiInfo.baseUrl+'/api/user');
+      return $resource($rootScope.appInfo.api.baseUrl+'/api/user');
     }])
     .factory('Auth', [ '$rootScope', '$resource', function($rootScope, $resource) {
-      return $resource($rootScope.apiInfo.baseUrl+'/auth/user', null, {'login':{method:'POST'}});
+      return $resource($rootScope.appInfo.api.baseUrl+'/auth/user', null, {'login':{method:'POST'}});
     }])
     .factory('UserLogin', [ 'Auth', '$route', '$q', function(Auth, $route, $q) {
       return function(id, pw) {
@@ -21,7 +21,7 @@ define(['angular', 'angularResource'], function (angular) {
     }])
     
     .factory('UserReg', [ '$rootScope', '$resource', function($rootScope, $resource) {
-      return $resource($rootScope.apiInfo.baseUrl+'/user');
+      return $resource($rootScope.appInfo.api.baseUrl+'/user');
     }])
     .factory('UserRegist', [ 'UserReg', '$route', '$q', function(UserReg, $route, $q) {
       return function(save) {
@@ -54,6 +54,6 @@ define(['angular', 'angularResource'], function (angular) {
     }])
     
     .factory('UserConnection', [ '$rootScope', '$resource', function($rootScope, $resource) {
-      return $resource($rootScope.apiInfo.baseUrl+'/api/userConnection/:id');
+      return $resource($rootScope.appInfo.api.baseUrl+'/api/userConnection/:id');
     }]);
 });

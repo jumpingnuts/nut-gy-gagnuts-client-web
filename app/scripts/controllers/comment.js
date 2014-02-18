@@ -10,7 +10,7 @@ define(['angular', 'services/comment'], function (angular) {
         data: []
       };
       $scope.commentLoad = function(){
-        new CommentLoader($scope.comment.page, $scope.webInfo.currentUrl, $scope.comment.type).then(function(res){
+        new CommentLoader($scope.comment.page, $scope.appInfo.currentUrl, $scope.comment.type).then(function(res){
           $scope.comment.data = res;
         });
       };
@@ -21,7 +21,7 @@ define(['angular', 'services/comment'], function (angular) {
           $scope.moveLogin();
           return false;
         }
-        new CommentWrite($scope.webInfo.currentUrl, $scope.comment.content, $scope.userInfo.id).then(function(){
+        new CommentWrite($scope.appInfo.currentUrl, $scope.comment.content, $scope.userInfo.id).then(function(){
           $scope.commentLoad();
           $scope.comment.content = '';
         });

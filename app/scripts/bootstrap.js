@@ -9,7 +9,7 @@ require.config({
     angularCookies: '../bower_components/angular-cookies/angular-cookies',
     angularMD5: '../bower_components/angular-md5/angular-md5',
     angularBootstrap: '../bower_components/angular-bootstrap/ui-bootstrap-tpls.min',
-    jquery: '../bower_components/jquery/jquery',
+    jquery: '../bower_components/jquery/dist/jquery.min',
     kakao: 'lib/kakao.link.min',
   },
   shim: {

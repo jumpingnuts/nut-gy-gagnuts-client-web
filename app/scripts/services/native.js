@@ -3,7 +3,7 @@ define(['angular'], function (angular) {
   
   angular.module('nativeServices', [ 'ngResource' ])
     .factory('Noti', [ '$rootScope', '$resource', function($rootScope, $resource) {
-      return $resource($rootScope.apiInfo.baseUrl+'/api/notification/regist');
+      return $resource($rootScope.appInfo.api.baseUrl+'/api/notification/regist');
     }])
     
     .factory('NativeFunc', ['Noti', function(Noti){
@@ -11,7 +11,7 @@ define(['angular'], function (angular) {
         'notiRegist': function(username, marketUrl){
           var self = this;
           var param = JSON.parse(window.android.getRegId());
-          param.type = 'simnut';
+          param.type = 'gagnuts';
           new Noti.save(param, function(res) {
             if(res.insertId > 0) {
               var data = {
