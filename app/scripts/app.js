@@ -105,7 +105,7 @@ define([
           'establishmentYear': '2013',
           'api' : {
             'baseUrl': 'http://api.jumpingnuts.com',  //상용
-    //        'baseUrl': 'http://dev.jumpingnuts.com:9010', //개발
+//            'baseUrl': 'http://dev.jumpingnuts.com:9000', //개발
             'clientId': '0441c0011f37fec037843fcfe314366f',
             'responseType': 'token',
             'openType': 'iframe'//iframe, opener
